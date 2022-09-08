@@ -4,19 +4,21 @@ const disc = require("./disc.json");
 //npm install node-google-calendar
 
 module.exports = {
-    create : this.create
+    create : create
 }
 
-let shiftMsgEmbed = new MessageEmbed();
-shiftMsgEmbed.setTitle(disc.shiftMsgEmbed.Title);
-shiftMsgEmbed.setDiscription(disc.shiftMsgEmbed.Discription);
+let shiftMsgEmbed = new discord.MessageEmbed()
+.setTitle(disc.shiftMsgEmbed.Title)
+.setDescription(disc.shiftMsgEmbed.Description);
 
 function create (msg) {
-    let sentMsg = msg.channel.send(shiftMsgEmbed);
+    msg.channel.send(shiftMsgEmbed)
+    .then(sentMsg => {
+        for (let i = 1; i <= 4; i++) {
+            setTimeout(() => {sentMsg.react(disc.emoji[i]);}, 100);
+        }
+    })
 
-    for (let i = 1; i <= 4; i++) {
-        sentMsg.react(i);
-    }
-
-    sentMsg.awaitReactions()
+    
+    
 }
