@@ -17,6 +17,11 @@ function create (msg) {
         for (let i = 1; i <= 4; i++) {
             setTimeout(() => {sentMsg.react(disc.emoji[i]);}, 100);
         }
+
+        sentMsg.awaitReactions(r => r.emoji.name == disc.emoji[4], {max: 2})
+    .then(collected => 
+        console.log(collected.first().message.reactions.cache.get(disc.emoji[1]).count));
+        
     })
 
     
