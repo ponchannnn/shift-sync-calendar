@@ -2,3 +2,4 @@ environ.json
 node_modules
 calendar.json
 calendarConfig.js
+.vscode

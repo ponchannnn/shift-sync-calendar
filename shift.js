@@ -1,4 +1,5 @@
 const discord = require("discord.js");
+const { content } = require("googleapis/build/src/apis/content");
 const client = new discord.Client();
 const disc = require("./disc.json");
 //npm install node-google-calendar
@@ -11,8 +12,10 @@ let shiftMsgEmbed = new discord.MessageEmbed()
 .setTitle(disc.shiftMsgEmbed.Title)
 .setDescription(disc.shiftMsgEmbed.Description);
 
-function create (msg) {
-    msg.channel.send(shiftMsgEmbed)
+async function create (msg) {
+    let date = inputDate(msg);
+    await console.log(date);
+    await msg.channel.send(shiftMsgEmbed)
     .then(sentMsg => {
         for (let i = 1; i <= 5; i++) {
             setTimeout(() => {sentMsg.react(disc.emoji[i]);}, 100);
@@ -34,12 +37,28 @@ function create (msg) {
 }
 
 function inputContent (msg, one, two, three, four) {
-    let timeCount = {one, two, three, four};
-
+    let timeCount = [one, two, three, four];
+    let min, max;
     for (let i in timeCount) {
         if (timeCount[i] !== 2) continue;
-        let min = timeCount[i];
+        min = i;
         break;
     }
+
+    for (let i = 3; i > 0; i--) {
+        if (timeCount[i] !== 2) continue;
+        max = i;
+        break;
+    }
+
+    msg.channel.send(`min=${min}, max=${max}`);
     
+}
+
+async function inputDate (msg) {
+    msg.channel.send(disc.inputDateMsg);
+    msg.channel.awaitMessages(m => m.content.startsWith("2022/03/11"), { max: 1, time: 10 * 1000})
+    .then(collected => {
+        
+    })
 }
